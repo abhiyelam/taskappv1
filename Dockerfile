@@ -1,23 +1,20 @@
-# Use Node image
-FROM node:18
+# Stage 1: Build Angular App
+FROM node:20 AS build
 
-# Create app directory
 WORKDIR /app
 
-# Install Angular CLI globally
-RUN npm install -g @angular/cli
-
-# Copy package files first
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy remaining project files
 COPY . .
 
-# Expose Angular port
-EXPOSE 4200
+RUN npx ng build --configuration production
 
-# Start Angular server
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200"]
+# Stage 2: Run with Nginx
+FROM nginx:alpine
+
+COPY --from=build /app/dist/taskapp/browser /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -5,14 +5,16 @@ pipeline {
 
         stage('Clone Frontend') {
             steps {
-                git 'https://github.com/abhiyelam/taskappv1.git'
+                git branch: 'main',
+                url: 'https://github.com/abhiyelam/taskappv1.git'
             }
         }
 
         stage('Clone Backend') {
             steps {
                 dir('backend') {
-                    git 'https://github.com/abhiyelam/WebAPIDemo.git'
+                    git branch: 'master',
+                    url: 'https://github.com/abhiyelam/WebAPIDemo.git'
                 }
             }
         }

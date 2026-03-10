@@ -3,13 +3,21 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Clone Frontend') {
             steps {
-                checkout scm
+                git 'https://github.com/abhiyelam/taskappv1.git'
             }
         }
 
-        stage('Build Containers') {
+        stage('Clone Backend') {
+            steps {
+                dir('backend') {
+                    git 'https://github.com/abhiyelam/WebAPIDemo.git'
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
             steps {
                 sh 'docker-compose build'
             }

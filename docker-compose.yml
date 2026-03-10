@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   frontend:
@@ -13,13 +11,3 @@ services:
     build: ./backend
     ports:
       - "5000:80"
-    depends_on:
-      - 192.168.10.103
-
-  db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      SA_PASSWORD: "ITPL#2020@Inv"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"

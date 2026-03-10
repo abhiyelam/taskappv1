@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+
+  angular-app:
+    build: .
+    container_name: angular-container
+    ports:
+      - "8081:80"
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Strong@123
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+volumes:
+  sqlvolume:

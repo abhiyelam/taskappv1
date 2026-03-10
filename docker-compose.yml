@@ -14,7 +14,7 @@ services:
     ports:
       - "5000:80"
     depends_on:
-      - db
+      - 192.168.10.103
 
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest

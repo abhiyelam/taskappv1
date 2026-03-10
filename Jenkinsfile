@@ -5,8 +5,10 @@ pipeline {
 
         stage('Clone Frontend') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/abhiyelam/taskappv1.git'
+                dir('frontend') {
+                    git branch: 'main',
+                    url: 'https://github.com/abhiyelam/taskappv1.git'
+                }
             }
         }
 
@@ -19,17 +21,24 @@ pipeline {
             }
         }
 
-      stage('Build Docker Images') {
-    steps {
-        sh 'docker compose build'
-    }
-}
+        stage('Build Docker Images') {
+            steps {
+                sh 'docker compose build'
+            }
+        }
 
-stage('Run Containers') {
-    steps {
-        sh 'docker compose up -d'
+        stage('Run Containers') {
+            steps {
+                sh 'docker compose up -d'
+            }
+        }
     }
-}
-
+  post {
+        success {
+            echo 'Application deployed successfully 🚀'
+        }
+        failure {
+            echo 'Deployment failed ❌'
+        }
     }
 }

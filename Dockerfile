@@ -13,7 +13,7 @@ RUN npx ng build --configuration production
 # ---------- Runtime ----------
 FROM nginx:alpine
 
-COPY --from=build /app/dist/taskapp /usr/share/nginx/html
+COPY --from=build /app/dist/taskappv1 /usr/share/nginx/html
 
 EXPOSE 80
 

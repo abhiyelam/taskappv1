@@ -2,14 +2,19 @@
 FROM node:20 AS build
 
 WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
 COPY . .
 
-RUN npm install
-RUN npm run build --configuration production
+RUN npx ng build --configuration production
 
-# Stage 2: Run with Nginx
+# ---------- Runtime ----------
 FROM nginx:alpine
 
-COPY --from=build /app/dist/taskappv1 /usr/share/nginx/html
+COPY --from=build /app/dist/taskapp /usr/share/nginx/html
 
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

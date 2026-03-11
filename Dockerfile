@@ -2,12 +2,18 @@
 FROM node:20 AS build
 
 WORKDIR /app
-COPY . .
+
+COPY package*.json ./
 
 RUN npm install
-RUN npm run build --configuration production
 
-# Run with nginx
+COPY . .
+
+RUN npm install -g @angular/cli
+
+RUN npm run build
+
+# Nginx stage
 FROM nginx:alpine
 
 COPY --from=build /app/dist/taskappv1 /usr/share/nginx/html

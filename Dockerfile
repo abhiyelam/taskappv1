@@ -12,6 +12,7 @@ RUN npx ng build --configuration production
 
 # ---------- Runtime ----------
 FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /app/dist/taskappv1/browser /usr/share/nginx/html
 

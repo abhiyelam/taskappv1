@@ -11,7 +11,7 @@ COPY . .
 
 RUN npm install -g @angular/cli
 
-RUN npm run build
+RUN node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production
 
 # Nginx stage
 FROM nginx:alpine

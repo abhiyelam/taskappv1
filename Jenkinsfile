@@ -27,28 +27,6 @@ pipeline {
             }
         }
 
-        stage('Install Angular Dependencies') {
-            steps {
-                dir('frontend') {
-                    sh 'npm install'
-                }
-            }
-        }
-
-        stage('Build Angular Project') {
-            steps {
-                dir('frontend') {
-                    sh 'npm run build --configuration production'
-                }
-            }
-        }
-
-        stage('Check Angular Dist') {
-            steps {
-                sh 'ls -la frontend/dist'
-            }
-        }
-
         stage('Stop Old Containers') {
             steps {
                 sh 'docker compose down || true'

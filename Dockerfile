@@ -1,20 +1,15 @@
-# Stage 1: Build Angular
+# Build Angular
 FROM node:20 AS build
 
 WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
 COPY . .
 
-RUN npx ng build --configuration production
+RUN npm install
+RUN npm run build --configuration production
 
-# ---------- Runtime ----------
+# Run with nginx
 FROM nginx:alpine
 
 COPY --from=build /app/dist/taskappv1 /usr/share/nginx/html
 
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]

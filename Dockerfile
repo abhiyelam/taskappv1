@@ -16,6 +16,6 @@ RUN node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --co
 # Nginx stage
 FROM nginx:alpine
 
-COPY --from=build /app/dist/taskappv1 /usr/share/nginx/html
+COPY --from=build /app/dist/taskappv1/browser /usr/share/nginx/html
 
 EXPOSE 80

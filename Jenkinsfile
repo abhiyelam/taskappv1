@@ -3,11 +3,7 @@ pipeline {
 
     stages {
 
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
+     
 
         stage('Clone Frontend') {
             steps {

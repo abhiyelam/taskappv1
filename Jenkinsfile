@@ -3,6 +3,12 @@ pipeline {
 
     stages {
 
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
         stage('Clone Frontend') {
             steps {
                 dir('frontend') {
@@ -21,25 +27,31 @@ pipeline {
             }
         }
 
+        stage('Check Frontend Files') {
+            steps {
+                sh 'ls -la frontend'
+            }
+        }
+
+        stage('Check Angular Dist') {
+            steps {
+                sh 'ls -la frontend/dist || echo "dist folder not found"'
+            }
+        }
+
         stage('Stop Old Containers') {
             steps {
                 sh 'docker compose down || true'
             }
         }
 
-        stage('Remove Old Images') {
-            steps {
-                sh 'docker image prune -f || true'
-            }
-        }
-
-        stage('Build New Images') {
+        stage('Build Docker Images') {
             steps {
                 sh 'docker compose build --no-cache'
             }
         }
 
-        stage('Run New Containers') {
+        stage('Run Containers') {
             steps {
                 sh 'docker compose up -d'
             }
@@ -48,7 +60,7 @@ pipeline {
 
     post {
         success {
-            echo 'New image created and application deployed 🚀'
+            echo 'Application deployed successfully 🚀'
         }
         failure {
             echo 'Deployment failed ❌'

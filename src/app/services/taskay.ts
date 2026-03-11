@@ -8,7 +8,7 @@ import { Task } from '../models/task.model';
 })
 export class TaskService {
 
-  private baseUrl = 'http://backend:80/api/Task/';
+  private baseUrl = 'http://backend/api/Task';
 
   constructor(private http: HttpClient) { }
 

@@ -27,15 +27,25 @@ pipeline {
             }
         }
 
-        stage('Check Frontend Files') {
+        stage('Install Angular Dependencies') {
             steps {
-                sh 'ls -la frontend'
+                dir('frontend') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Build Angular Project') {
+            steps {
+                dir('frontend') {
+                    sh 'npm run build --configuration production'
+                }
             }
         }
 
         stage('Check Angular Dist') {
             steps {
-                sh 'ls -la frontend/dist || echo "dist folder not found"'
+                sh 'ls -la frontend/dist'
             }
         }
 

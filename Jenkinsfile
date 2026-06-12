@@ -1,53 +1,51 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "angular-app"
+        CONTAINER_NAME = "angular-container"
+        PORT = "8080"
+    }
+
+    triggers {
+        githubPush()   // ✅ Automatically trigger on GitHub push
+    }
+
     stages {
 
-     
-
-        stage('Clone Frontend') {
+        stage('Checkout Code') {
             steps {
-                dir('frontend') {
-                    git branch: 'main',
-                    url: 'https://github.com/abhiyelam/taskappv1.git'
-                }
+                checkout scm
             }
         }
 
-        stage('Clone Backend') {
+        stage('Build Docker Image') {
             steps {
-                dir('backend') {
-                    git branch: 'master',
-                    url: 'https://github.com/abhiyelam/WebAPIDemo.git'
-                }
+                sh "docker build -t ${IMAGE_NAME}:latest ."
             }
         }
 
-        stage('Stop Old Containers') {
+        stage('Stop Old Container') {
             steps {
-                sh 'docker compose down || true'
+                sh "docker stop ${CONTAINER_NAME} || true"
+                sh "docker rm ${CONTAINER_NAME} || true"
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Run New Container') {
             steps {
-                sh 'docker compose build --no-cache'
-            }
-        }
-
-        stage('Run Containers') {
-            steps {
-                sh 'docker compose up -d'
+                sh "docker run -d -p ${PORT}:80 --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest"
             }
         }
     }
 
     post {
         success {
-            echo 'Application deployed successfully 🚀'
+            echo "✅ Deployment Successful!"
+            echo "Application running at: http://localhost:${PORT}"
         }
         failure {
-            echo 'Deployment failed ❌'
+            echo "❌ Build Failed!"
         }
     }
 }

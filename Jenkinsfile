@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "angular-app"
         CONTAINER_NAME = "angular-container"
-        PORT = "8080"
+        PORT = "8081"
     }
 
     triggers {

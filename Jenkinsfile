@@ -1,6 +1,16 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "angular-app"
+        CONTAINER_NAME = "angular-container"
+        PORT = "8081"
+    }
+
+    triggers {
+        githubPush()   // ✅ Automatically trigger on GitHub push
+    }
+
     stages {
 
         stage('Checkout Code') {

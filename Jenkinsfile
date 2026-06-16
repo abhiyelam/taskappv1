@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "angular-app:latest"
-        CONTAINER_NAME = "angularv1 "
+        CONTAINER_NAME = "jenkins"
         PORT = "8081"
     }
 

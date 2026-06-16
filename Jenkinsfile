@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "angular-app"
+        IMAGE_NAME = "angular-app:latest"
         CONTAINER_NAME = "angularv1 "
         PORT = "8081"
     }

@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "jenkins/jenkins:lts"
+        IMAGE_NAME = "jenkins/jenkins"
         CONTAINER_NAME = "jenkins"
         PORT = "8080"
     }

@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "angular-app"
+        IMAGE_NAME = "jenkins/jenkins:lts"
         CONTAINER_NAME = "jenkins"
         PORT = "8080"
     }

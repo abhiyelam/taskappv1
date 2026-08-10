@@ -34,7 +34,23 @@ pipeline {
 
         stage('Run New Container') {
             steps {
-                sh "docker run -d -p ${PORT}:80 --name ${CONTAINER_NAME} ${IMAGE_NAME}"
+                sh """
+                    docker run -d \
+                    --name ${CONTAINER_NAME} \
+                    -p ${PORT}:80 \
+                    ${IMAGE_NAME}
+                """
+            }
+        }
+
+        stage('Verify Container') {
+            steps {
+                sh """
+                    sleep 5
+                    docker ps
+                    docker logs ${CONTAINER_NAME}
+                    curl -f http://localhost:${PORT}
+                """
             }
         }
     }
@@ -46,7 +62,9 @@ pipeline {
         }
 
         failure {
-            echo "❌ Build Failed!"
+            echo "❌ Deployment Failed!"
+            sh "docker ps -a || true"
+            sh "docker logs ${CONTAINER_NAME} || true"
         }
     }
 }

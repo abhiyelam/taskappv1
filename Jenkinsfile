@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "jenkins/jenkins:lts"
-        CONTAINER_NAME = "jenkins"
-        PORT = "8080"
+        IMAGE_NAME = "taskapp:v1"
+        CONTAINER_NAME = "taskapp"
+        PORT = "8081"
     }
 
     triggers {
-        githubPush()   // ✅ Automatically trigger on GitHub push
+        githubPush()
     }
 
     stages {
@@ -44,6 +44,7 @@ pipeline {
             echo "✅ Deployment Successful!"
             echo "Application running at: http://localhost:${PORT}"
         }
+
         failure {
             echo "❌ Build Failed!"
         }

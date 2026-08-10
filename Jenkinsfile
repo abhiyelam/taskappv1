@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "taskapp:v1"
         CONTAINER_NAME = "taskapp"
-        PORT = "8081"
+        PORT = "8080"
     }
 
     triggers {

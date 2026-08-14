@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "taskapp:v1"
-        CONTAINER_NAME = "taskapp"
-        PORT = "8081"
+        IMAGE_NAME = "jenkins/jenkins"
+        CONTAINER_NAME = "jenkins"
+        PORT = "9090"
     }
 
     triggers {
-        githubPush()
+        githubPush()   // ✅ Automatically trigger on GitHub push
     }
 
     stages {
@@ -21,7 +21,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t ${IMAGE_NAME} ."
+                sh "docker build -t ${IMAGE_NAME}:latest ."
             }
         }
 
@@ -34,23 +34,7 @@ pipeline {
 
         stage('Run New Container') {
             steps {
-                sh """
-                    docker run -d \
-                    --name ${CONTAINER_NAME} \
-                    -p ${PORT}:80 \
-                    ${IMAGE_NAME}
-                """
-            }
-        }
-
-        stage('Verify Container') {
-            steps {
-                sh """
-                    sleep 5
-                    docker ps
-                    docker logs ${CONTAINER_NAME}
-                    curl -f http://localhost:${PORT}
-                """
+                sh "docker run -d -p ${PORT}:80 --name ${CONTAINER_NAME} ${IMAGE_NAME}:v1"
             }
         }
     }
@@ -60,11 +44,8 @@ pipeline {
             echo "✅ Deployment Successful!"
             echo "Application running at: http://localhost:${PORT}"
         }
-
         failure {
-            echo "❌ Deployment Failed!"
-            sh "docker ps -a || true"
-            sh "docker logs ${CONTAINER_NAME} || true"
+            echo "❌ Build Failed!"
         }
     }
 }

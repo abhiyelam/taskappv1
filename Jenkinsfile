@@ -34,7 +34,7 @@ pipeline {
 
         stage('Run New Container') {
             steps {
-                sh "docker run -d -p ${PORT}:80 --name ${CONTAINER_NAME} ${IMAGE_NAME}:v1"
+                sh "docker run -d -p ${PORT}:80 --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest"
             }
         }
     }

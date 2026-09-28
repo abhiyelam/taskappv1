@@ -1,4 +1,4 @@
-# Build Angular
+# ---------- Build Stage ----------
 FROM node:20 AS build
 
 WORKDIR /app
@@ -12,8 +12,9 @@ RUN npx ng build --configuration production
 
 # ---------- Runtime ----------
 FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build /app/dist/taskapp/browser /usr/share/nginx/html
+COPY --from=build /app/dist/taskappv1/browser /usr/share/nginx/html
 
 EXPOSE 80
 

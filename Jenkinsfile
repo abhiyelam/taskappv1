@@ -1,57 +1,51 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "jenkins/jenkins:lts"
+        CONTAINER_NAME = "jenkins"
+        PORT = "9090"
+    }
+
+    triggers {
+        githubPush()   // ✅ Automatically trigger on GitHub push
+    }
+
     stages {
 
-        stage('Clean Workspace') {
+        stage('Checkout Code') {
             steps {
-                cleanWs()
+                checkout scm
             }
         }
 
-        stage('Clone Frontend') {
+        stage('Build Docker Image') {
             steps {
-                dir('frontend') {
-                    git branch: 'main',
-                    url: 'https://github.com/abhiyelam/taskappv1.git'
-                }
+                sh "docker build -t ${IMAGE_NAME}:latest ."
             }
         }
 
-        stage('Clone Backend') {
+        stage('Stop Old Container') {
             steps {
-                dir('backend') {
-                    git branch: 'master',
-                    url: 'https://github.com/abhiyelam/WebAPIDemo.git'
-                }
+                sh "docker stop ${CONTAINER_NAME} || true"
+                sh "docker rm ${CONTAINER_NAME} || true"
             }
         }
 
-        stage('Stop Old Containers') {
+        stage('Run New Container') {
             steps {
-                sh 'docker compose down || true'
-            }
-        }
-
-        stage('Build Docker Images') {
-            steps {
-                sh 'docker compose build --no-cache'
-            }
-        }
-
-        stage('Run Containers') {
-            steps {
-                sh 'docker compose up -d'
+                sh "docker run -d -p ${PORT}:80 --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest"
             }
         }
     }
 
     post {
         success {
-            echo 'Application deployed successfully 🚀'
+            echo "✅ Deployment Successful!"
+            echo "Application running at: http://localhost:${PORT}"
         }
         failure {
-            echo 'Deployment failed ❌'
+            echo "❌ Build Failed!"
         }
     }
 }

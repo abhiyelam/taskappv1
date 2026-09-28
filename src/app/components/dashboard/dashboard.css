@@ -1,0 +1,13 @@
+.nav-link:hover{
+    background:#0d6efd;
+    border-radius:5px;
+}
+
+.active{
+    background:#198754;
+    border-radius:5px;
+}
+
+.vh-100{
+    min-height:100vh;
+}

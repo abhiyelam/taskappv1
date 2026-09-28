@@ -4,9 +4,10 @@ import {Router} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Task } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-task-create',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule,RouterModule],
   templateUrl: './task-create.html',
   styleUrl: './task-create.css',
 })
@@ -67,13 +68,20 @@ export class TaskCreateComponent {
   editTask(selectedTask: any) {
 
     this.isEditMode = true;
-  
+    console.log(selectedTask);
     this.task = {
       taskId: selectedTask.taskId,
       title: selectedTask.title,
       description: selectedTask.description,
-      isCompleted: selectedTask.isCompleted
+      isCompleted: selectedTask.isCompleted,
+      projectId: selectedTask.projectId,
+      assignedTo: selectedTask.assignedTo,
+      priority: selectedTask.priority,
+      status: selectedTask.status,
+      dueDate: selectedTask.dueDate,
+      createdDate: selectedTask.createdDate
     };
+  
   }
   resetForm() {
     this.task = {

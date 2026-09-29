@@ -1,0 +1,211 @@
+<div class="container mt-4">
+
+    <div class="row">
+  
+      <!-- ================= PROJECT LIST ================= -->
+  
+      <div class="col-md-8">
+  
+        <div class="card shadow">
+  
+          <div class="card-header bg-dark text-white">
+            <h5>Project List</h5>
+          </div>
+  
+          <div class="card-body table-responsive">
+  
+            <table class="table table-bordered table-hover">
+  
+              <thead class="table-light">
+  
+                <tr>
+  
+                  <th>Id</th>
+                  <th>Project Name</th>
+                  <th>Description</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Status</th>
+                  <th>Created By</th>
+                  <th>Action</th>
+  
+                </tr>
+  
+              </thead>
+  
+              <tbody>
+  
+                <tr *ngFor="let project of projects">
+  
+                  <td>{{project.projectId}}</td>
+                  <td>{{project.projectName}}</td>
+                  <td>{{project.description}}</td>
+                  <td>{{project.startDate | date:'dd/MM/yyyy'}}</td>
+                  <td>{{project.endDate | date:'dd/MM/yyyy'}}</td>
+                  <td>{{project.status}}</td>
+                  <td>{{project.createdBy}}</td>
+  
+                  <td>
+  
+                    <button
+                      class="btn btn-primary btn-sm me-2"
+                      (click)="editProject(project)">
+                      Edit
+                    </button>
+  
+                    <button
+                      class="btn btn-danger btn-sm"
+                      (click)="deleteProject(project.projectId)">
+                      Delete
+                    </button>
+  
+                  </td>
+  
+                </tr>
+  
+                <tr *ngIf="projects.length == 0">
+  
+                  <td colspan="8" class="text-center">
+                    No Projects Found
+                  </td>
+  
+                </tr>
+  
+              </tbody>
+  
+            </table>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <!-- ================= PROJECT FORM ================= -->
+  
+      <div class="col-md-4">
+  
+        <div class="card shadow">
+  
+          <div class="card-header bg-primary text-white">
+            <h5>{{ isEditMode ? 'Update Project' : 'Create Project' }}</h5>
+          </div>
+  
+          <div class="card-body">
+  
+            <!-- Project Name -->
+  
+            <div class="mb-3">
+  
+              <label>Project Name</label>
+  
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="project.projectName">
+  
+            </div>
+  
+            <!-- Description -->
+  
+            <div class="mb-3">
+  
+              <label>Description</label>
+  
+              <textarea
+                class="form-control"
+                rows="3"
+                [(ngModel)]="project.description">
+              </textarea>
+  
+            </div>
+  
+            <!-- Start Date -->
+  
+            <div class="mb-3">
+  
+              <label>Start Date</label>
+  
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="project.startDate">
+  
+            </div>
+  
+            <!-- End Date -->
+  
+            <div class="mb-3">
+  
+              <label>End Date</label>
+  
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="project.endDate">
+  
+            </div>
+  
+            <!-- Status -->
+  
+            <div class="mb-3">
+  
+              <label>Status</label>
+  
+              <select
+                class="form-select"
+                [(ngModel)]="project.status">
+  
+                <option value="">Select Status</option>
+                <option>Pending</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+  
+              </select>
+  
+            </div>
+  
+            <!-- Created By -->
+  
+            <div class="mb-3">
+  
+              <label>Created By (User Id)</label>
+  
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="project.createdBy">
+  
+            </div>
+  
+            <!-- Buttons -->
+  
+            <div class="text-center">
+  
+              <button
+                class="btn btn-success me-2"
+                (click)="saveProject()">
+                 Save
+             </button>
+  
+              <button
+                class="btn btn-secondary"
+                (click)="resetForm()">
+  
+                Clear
+  
+              </button>
+              <!-- <button class="btn btn-primary" routerLink="/task-create">
+                Task
+              </button> -->
+            </div>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>

@@ -2,131 +2,252 @@
 
   <div class="row">
 
-    <!-- ✅ LEFT SIDE : TASK LIST -->
-    <div class="col-md-7">
+    <!-- ================= TASK LIST ================= -->
+    <div class="col-md-8">
 
       <div class="card shadow">
+
         <div class="card-header bg-dark text-white">
-          <h5 class="mb-0">Task List</h5>
+          <h5>Task List</h5>
         </div>
 
-        <div class="card-body p-0">
+        <div class="card-body table-responsive">
 
-          <table class="table table-bordered table-hover mb-0 text-center">
+          <table class="table table-bordered table-hover">
+
             <thead class="table-light">
               <tr>
-                <th>ID</th>
+                <th>Id</th>
                 <th>Title</th>
+                <th>Project</th>
+                <th>Assigned To</th>
+                <th>Priority</th>
                 <th>Status</th>
-                <th width="120">Action</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+                <th>Completed</th>
+                <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
+
               <tr *ngFor="let task of tasks">
-                <td>{{ task.taskId }}</td>
-                <td>{{ task.title }}</td>
+
+                <td>{{task.taskId}}</td>
+                <td>{{task.title}}</td>
+                <td>{{task.projectId}}</td>
+                <td>{{task.assignedTo}}</td>
+                <td>{{task.priority}}</td>
+                <td>{{task.status}}</td>
+                <td>{{task.createdDate | date:'dd/MM/yyyy'}}</td>
+                <td>{{ task.dueDate | date:'yyyy-MM-dd' }}</td>
 
                 <td>
-                  <span 
+
+                  <span
                     class="badge"
                     [ngClass]="task.isCompleted ? 'bg-success' : 'bg-warning text-dark'">
-                    {{ task.isCompleted ? 'Completed' : 'Pending' }}
+
+                    {{task.isCompleted ? 'Completed' : 'Pending'}}
+
                   </span>
+
                 </td>
 
                 <td>
-                  <button 
-                    class="btn btn-sm btn-danger"
+
+                  <button
+                    class="btn btn-primary btn-sm me-2"
+                    (click)="editTask(task)">
+                    Edit
+                  </button>
+
+                  <button
+                    class="btn btn-danger btn-sm"
                     (click)="deleteTask(task.taskId)">
                     Delete
                   </button>
-                  <button 
-                  class="btn btn-sm btn-secondary"
-                  (click)="editTask(task)">
-                  Edit
-                </button>
+
                 </td>
+
               </tr>
 
-              <tr *ngIf="tasks.length === 0">
-                <td colspan="4" class="text-muted">
-                  No Tasks Available
-                </td>
-              </tr>
             </tbody>
 
           </table>
 
         </div>
+
       </div>
 
     </div>
 
+    <!-- ================= CREATE TASK ================= -->
 
-    <!-- ✅ RIGHT SIDE : CREATE TASK -->
-    <div class="col-md-5">
+    <div class="col-md-4">
 
       <div class="card shadow">
+
         <div class="card-header bg-primary text-white">
-          <h5 class="mb-0">Create New Task</h5>
+          <h5>Create Task</h5>
         </div>
 
         <div class="card-body">
 
           <!-- Title -->
+
           <div class="mb-3">
-            <label class="form-label">Task Title</label>
-            <input 
+            <label>Title</label>
+
+            <input
               type="text"
               class="form-control"
-              [(ngModel)]="task.title"
-              placeholder="Enter task title" />
+              [(ngModel)]="task.title">
+
           </div>
 
           <!-- Description -->
+
           <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea 
+
+            <label>Description</label>
+
+            <textarea
               class="form-control"
               rows="3"
-              [(ngModel)]="task.description"
-              placeholder="Enter description">
+              [(ngModel)]="task.description">
             </textarea>
+
+          </div>
+
+          <!-- Project -->
+
+          <div class="mb-3">
+
+            <label>Project Id</label>
+
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="task.projectId">
+
+          </div>
+
+          <!-- Assigned -->
+
+          <div class="mb-3">
+
+            <label>Assigned To</label>
+
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="task.assignedTo">
+
+          </div>
+
+          <!-- Priority -->
+
+          <div class="mb-3">
+
+            <label>Priority</label>
+
+            <select
+              class="form-select"
+              [(ngModel)]="task.priority">
+
+              <option value="">Select</option>
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
+
+            </select>
+
+          </div>
+
+          <!-- Status -->
+
+          <div class="mb-3">
+
+            <label>Status</label>
+
+            <select
+              class="form-select"
+              [(ngModel)]="task.status">
+
+              <option value="">Select</option>
+              <option>Pending</option>
+              <option>In Progress</option>
+              <option>Completed</option>
+
+            </select>
+
+          </div>
+
+          <!-- Start Date -->
+
+          <div class="mb-3">
+
+            <label>Start Date</label>
+
+            <input
+              type="date"
+              class="form-control"
+              [(ngModel)]="task.startDate">
+
+          </div>
+
+          <!-- Due Date -->
+
+          <div class="mb-3">
+
+            <label>Due Date</label>
+
+            <input
+              type="date"
+              class="form-control"
+              [(ngModel)]="task.dueDate">
+
           </div>
 
           <!-- Completed -->
+
           <div class="form-check mb-3">
-            <input 
-              type="checkbox"
+
+            <input
               class="form-check-input"
-              [(ngModel)]="task.isCompleted"
-              id="completedCheck" />
-            <label class="form-check-label" for="completedCheck">
+              type="checkbox"
+              [(ngModel)]="task.isCompleted">
+
+            <label class="form-check-label">
               Completed
             </label>
+
           </div>
 
-          <!-- Buttons -->
           <div class="text-center">
-            <button 
+
+            <button
               class="btn btn-success me-2"
               (click)="saveTask()">
               Save
             </button>
 
-            <button 
+            <button
               class="btn btn-secondary"
               (click)="resetForm()">
               Clear
             </button>
+     
           </div>
 
         </div>
+
       </div>
 
     </div>
 
   </div>
-
+ 
 </div>

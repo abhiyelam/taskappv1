@@ -1,0 +1,75 @@
+<div class="container-fluid">
+
+    <div class="row">
+  
+      <!-- Sidebar -->
+  
+      <div class="col-md-2 bg-dark text-white vh-100">
+  
+        <h3 class="text-center mt-3">
+          Dashboard
+        </h3>
+  
+        <hr>
+  
+        <ul class="nav flex-column">
+  
+          <li class="nav-item mb-2">
+  
+            <a routerLink="/dashboard/task"
+               routerLinkActive="active"
+               class="nav-link text-white">
+  
+              ✅ Tasks
+  
+            </a>
+  
+          </li>
+  
+          <li class="nav-item mb-2">
+  
+            <a routerLink="/dashboard/project"
+               routerLinkActive="active"
+               class="nav-link text-white">
+  
+              📁 Projects
+  
+            </a>
+  
+          </li>
+  
+          <li class="nav-item mb-2">
+  
+            <a routerLink="/dashboard/user"
+               routerLinkActive="active"
+               class="nav-link text-white">
+  
+              👤 Users
+  
+            </a>
+  
+          </li>
+          <li class="nav-item mb-2">
+  
+            <a href="javascript:void(0)"
+              class="nav-link text-white"
+              (click)="logout()">
+              Logout
+            </a>
+  
+          </li>
+        </ul>
+  
+      </div>
+  
+      <!-- Right Side -->
+  
+      <div class="col-md-10">
+  
+        <router-outlet></router-outlet>
+  
+      </div>
+  
+    </div>
+  
+  </div>
